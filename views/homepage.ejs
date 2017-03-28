@@ -1,0 +1,48 @@
+<div id="path-submit">
+    <p>请输入起点：</p>
+    <input id="start-point" v-model="startPoint"/>
+    <p>请输入终点：</p>
+    <input id="end-point" v-model="endPoint"/>
+    <p></p>
+    <button :disabled="!startPoint || !endPoint" @click="submitPath">确认</button>
+    <p></p>
+    <recommand-route v-bind:data="recommandRoute"></recommand-route>
+</div>
+
+<!--<div id="recommand-route">-->
+    <!--{{route}}-->
+<!--</div>-->
+
+
+<script type="text/javascript">
+
+    Vue.component('recommand-route', {
+        template: `
+    <span>
+      {{ data }}
+    </span>
+  `,
+        props: ['data']
+    })
+
+    var pathSubmit = new Vue({
+        el: '#path-submit',
+        data: {
+            startPoint: '',
+            endPoint: '',
+            recommandRoute: '只有提交输入起点和终点才能看到规划路径!'
+        },
+        methods: {
+            submitPath: function () {
+                alert("hello")
+            }
+        }
+    })
+
+//    var recommandRoute = new Vue({
+//        el: '#recommand-route',
+//        data: {
+//            route: '只有提交输入起点和终点才能看到规划路径',
+//        }
+//    })
+</script>
