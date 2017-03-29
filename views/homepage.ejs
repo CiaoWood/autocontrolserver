@@ -1,16 +1,20 @@
 <div id="path-submit">
     <p>请输入起点：</p>
-    <input id="start-point" v-model="startPoint"/>
+    <input v-model="origin"/>
+    <p>请输入起点城市：</p>
+    <input v-model="originRegion"/>
     <p>请输入终点：</p>
-    <input id="end-point" v-model="endPoint"/>
+    <input v-model="destination"/>
+    <p>请输入终点城市：</p>
+    <input v-model="destinationRegion"/>
     <p></p>
-    <button :disabled="!startPoint || !endPoint" @click="submitPath">确认</button>
+    <button :disabled="!origin || !originRegion || !destination || !destinationRegion" @click="submitPath">确认</button>
     <p></p>
     <recommand-route v-bind:data="recommandRoute"></recommand-route>
 </div>
 
 <!--<div id="recommand-route">-->
-    <!--{{route}}-->
+<!--{{route}}-->
 <!--</div>-->
 
 
@@ -18,9 +22,9 @@
 
     Vue.component('recommand-route', {
         template: `
-    <span>
+    <pre>
       {{ data }}
-    </span>
+    </pre>
   `,
         props: ['data']
     })
@@ -28,21 +32,28 @@
     var pathSubmit = new Vue({
         el: '#path-submit',
         data: {
-            startPoint: '',
-            endPoint: '',
+            origin: '联合汽车电子',
+            destination: '世纪公园',
+            originRegion: '上海',
+            destinationRegion: '上海',
+            apiUrl: '/api/route/get',
             recommandRoute: '只有提交输入起点和终点才能看到规划路径!'
         },
         methods: {
             submitPath: function () {
-                alert("hello")
+                this.$http.get('/api/route/get', {params: this.$data}).then(response => {
+                    this.$set(this.$data, 'recommandRoute', JSON.stringify(response.data, null, '\t'))
+                }).catch(function (err) {
+                    console.log(err)
+                })
             }
         }
     })
 
-//    var recommandRoute = new Vue({
-//        el: '#recommand-route',
-//        data: {
-//            route: '只有提交输入起点和终点才能看到规划路径',
-//        }
-//    })
+    //    var recommandRoute = new Vue({
+    //        el: '#recommand-route',
+    //        data: {
+    //            route: '只有提交输入起点和终点才能看到规划路径',
+    //        }
+    //    })
 </script>

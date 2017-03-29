@@ -1,3 +1,3 @@
 # control-center
 
-a [Sails](http://sailsjs.org) application
+智能驾驶
