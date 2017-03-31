@@ -40,6 +40,10 @@ module.exports.routes = {
         view: 'route'
     },
 
+    '/view/map/byname': {
+        view: 'map/byname'
+    },
+
     /***************************************************************************
      *                                                                          *
      * Custom routes here...                                                    *

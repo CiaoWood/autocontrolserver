@@ -1,0 +1,37 @@
+
+<div id="input">
+    <span>起点城市</span><input id="start-city" value="上海"/><span>起点</span><input id="start-position" value="南京路"/>
+    <span>终点城市</span><input id="destination-city" value="上海"/><span>终点</span><input id="destination-position" value="东方明珠"/>
+    <input id="submit" type="button" onclick="search()" value="导航"/>
+</div>
+<div id="container"></div>
+<div id="panel"></div>
+<script type="text/javascript">
+    //基本地图加载
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        center: [116.397428, 39.90923],//地图中心点
+        zoom: 13 //地图显示的缩放级别
+    });
+    //构造路线导航类
+    var driving = new AMap.Driving({
+        map: map,
+        panel: "panel"
+    });
+    // 根据起终点名称规划驾车导航路线
+    var startCity = document.getElementById('start-city').value
+    var startPosition = document.getElementById('start-position').value
+    var destinationCity = document.getElementById('destination-city').value
+    var destinationPosition = document.getElementById('destination-position').value
+    search()
+    function search() {
+        driving.search([
+            {keyword: startPosition, city: startCity},
+            {keyword: destinationPosition, city: destinationCity}
+        ]);
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", '/api/route/get?originRegion='+startCity+'&origin=' + startPosition + '&destinationRegion' + destinationCity + '&destination=' + destinationPosition, false ); // false for synchronous request
+        xmlHttp.send( null );
+        console.log(xmlHttp.responseText)
+    }
+</script>
